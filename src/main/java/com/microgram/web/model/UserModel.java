@@ -47,6 +47,10 @@ public class UserModel implements Serializable {
 	@Column(name = "nama", nullable = false)
 	private String nama;
 
+	@NotNull
+	@Column(name = "tentang", nullable = false)
+	private String tentang;
+
 	//URLS
 	@Column(name = "twitter_url")
 	private String twitterUrl;
@@ -60,10 +64,39 @@ public class UserModel implements Serializable {
 	@Column(name = "instagram_url")
 	private String instagramUrl;
 
-	//UNTUK BAND
+	//UNTUK SEMUA
+	
+
+	@OneToMany(mappedBy = "user")
+	private List<CommentModel> commentList;
+
+	@OneToMany(mappedBy = "user")
+	private List<EventModel> eventList;
 	
 	@OneToMany(mappedBy = "user")
-	private List<CommentModel> Comment;
+	private List<ArtikelModel> artikelList;
+
+	
+	//UNTUK FANS
+	
+	@OneToMany(mappedBy = "user")
+	private List<BadgeModel> badgeList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private List<UserModel> fansOf;
+	
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "badge_id")
+    private BadgeModel activeBadge;
+	
+    //UNTUK BAND
+
+	@OneToMany(mappedBy = "user")
+	private List<StatusModel> statusList;
+
+	@OneToMany(mappedBy = "user")
+	private List<UserModel> fansList;
 
 	
 	public long getId() {
